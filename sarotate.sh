@@ -17,9 +17,13 @@ COUNT=$MINJS
 
 while :
 do
-	echo SA Rotate is running.
-		COUNT=$(( $COUNT>=$MAXJS?MINJS:$COUNT+1 ))
-	rclone config update $REMOTE service_account_file $JSONDIR/$COUNT.json
-	echo SA rotate is now going to sleep for $SLEEPTIME
-		sleep $SLEEPTIME
+	   echo SA Rotate is running.
+                COUNT=$(( $COUNT>=$MAXJS?MINJS:$COUNT+1 ))
+        rclone config update $REMOTE service_account_file $JSONDIR/$COUNT.json
+                sleep 1
+        systemctl restart rclone_vfs.service
+	        sleep 1
+        systemctl restart mergerfs.service
+        echo SA rotate is now going to sleep for $SLEEPTIME
+                sleep $SLEEPTIME
 done
